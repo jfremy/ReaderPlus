@@ -21,7 +21,7 @@
     var blacklistTerms = /^(is|are|have|has|do|does|will|should|must|shall|could|what|who|where|which|whose|whom|the|this|that|those|these|a|s|i|you|he|she|it|we|they|his|her|their|our|your|in|or|and|to|but|for|from|of|not|[0-9]+)$/;
     var separatorsLemma = /[\s,;:\.!\?\(\)\[\]"']+/;
 
-    var timerInactivity = 300; // 1s inactivity timer to detect "end of loading"
+    var timerInactivity = 1000; // 1s inactivity timer to detect "end of loading"
     var timerEndLoading = null;
     var manipulatingDom = false;
 
@@ -102,14 +102,18 @@
     }
 
     function triggerTimer() {
+        var startTime = new Date();
+        var endTime, duration;
         clearTimeout(timerEndLoading);
 
         idf = inverseDocumentFrequency(documents);
         updateCosines(documents, idf);
         var groups = buildGroups(threshold);
         annotateDom(groups);
-        displayFilteredDocuments(groups);
-        console.log("Inactivity timer fired, time to compute IDF");
+        endTime = new Date();
+        duration = (endTime.getTime() - startTime.getTime()) / 1000;
+
+        console.log("Updated IDF & Cosines in " + duration + "s");
     }
 
     function termFrequency(doc) {
