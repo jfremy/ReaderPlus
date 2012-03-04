@@ -37,6 +37,20 @@
 
     var entries = $("#entries");
     entries.on("DOMNodeInserted", newEntriesEvent );
+    entries.on("DOMNodeRemoved", delEntriesEvent);
+
+    function delEntriesEvent(me) {
+        if(manipulatingDom) {
+            return;
+        }
+
+        var e = $(me.target);
+        var numEntry = getEntryNumber(e.prop("class"));
+        if(numEntry && documents.hasOwnProperty(numEntry)) {
+            delete documents[numEntry];
+            delete cosines[numEntry];
+        }
+    }
 
     function getEntryNumber(classText) {
         var numEntry = entryClassMatch.exec(classText);
@@ -46,12 +60,12 @@
         return null;
     }
 
-    function newEntriesEvent(event) {
+    function newEntriesEvent(me) {
         if(manipulatingDom) {
             return;
         }
 
-        var e = $(event.target);
+        var e = $(me.target);
         var numEntry = getEntryNumber(e.prop("class"));
 
         // Check if we're expanding a node
