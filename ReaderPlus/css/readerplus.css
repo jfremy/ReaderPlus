@@ -1,0 +1,17 @@
+.rp-similar-articles-hide {
+    display: none;
+}
+
+#entries.list .rp-similar-articles .collapsed .entry-secondary .entry-title {
+    font-style: italic;
+    color: gray;
+    padding-left: 30px;
+}
+
+.rp-similar-articles-icon {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/images/icon.png');
+    background-repeat: no-repeat;
+}

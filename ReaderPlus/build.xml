@@ -1,0 +1,18 @@
+<project name="Reader Plus" default="dist" basedir=".">
+    <description>
+        ANT build file for Reader Plus
+    </description>
+    <target name="dist">
+
+    <zip destfile="release/ReaderPlus.zip" level="9">
+        <fileset dir=".">
+            <include name="css/*" />
+            <include name="html/*"/>
+            <include name="images/*" />
+            <include name="js/*" />
+            <include name="manifest.json" />
+        </fileset>
+    </zip>
+
+    </target>
+</project>
