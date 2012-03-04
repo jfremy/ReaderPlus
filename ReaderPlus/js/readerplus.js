@@ -21,7 +21,7 @@
     var blacklistTerms = /^(is|are|have|has|do|does|will|should|must|shall|could|what|who|where|which|whose|whom|the|this|that|those|these|a|s|i|you|he|she|it|we|they|his|her|their|our|your|in|or|and|to|but|for|from|of|not|[0-9]+)$/;
     var separatorsLemma = /[\s,;:\.!\?\(\)\[\]"']+/;
 
-    var timerInactivity = 1000; // 1s inactivity timer to detect "end of loading"
+    var timerInactivity = 300; // 1s inactivity timer to detect "end of loading"
     var timerEndLoading = null;
     var manipulatingDom = false;
 
@@ -38,20 +38,28 @@
     var entries = $("#entries");
     entries.on("DOMNodeInserted", newEntriesEvent );
 
+    function getEntryNumber(classText) {
+        var numEntry = entryClassMatch.exec(classText);
+        if(numEntry) {
+            return parseInt(numEntry[0].substr(numEntry[0].indexOf("-") + 1));
+        }
+        return null;
+    }
+
     function newEntriesEvent(event) {
         if(manipulatingDom) {
             return;
         }
 
         var e = $(event.target);
-        var numEntry = entryClassMatch.exec(e.prop("class"));
+        var numEntry = getEntryNumber(e.prop("class"));
 
         // Check if we're expanding a node
         if(e.prop("class").indexOf("entry-actions") != -1) {
             // Take the parent and check if it's an entry
             // Then we'll check if there are associated entries and display the elements needed
             var p = e.parent();
-            numEntry = entryClassMatch.exec(p.prop("class"));
+            numEntry = getEntryNumber(p.prop("class"));
 
             var associatedEntries = p.data("rp_data");
             if(associatedEntries == undefined) {
@@ -192,15 +200,21 @@
     }
 
     function updateCosines(docs, idf) {
-        $.each(docs, function(i,e) {
+        $.each(docs, function(i1,e1) {
             var cosDocA;
-            if(!cosines.hasOwnProperty(i)) {
-                cosines[i] = {};
+            if(!cosines.hasOwnProperty(i1)) {
+                cosines[i1] = {};
             }
-            cosDocA = cosines[i];
+            cosDocA = cosines[i1];
 
             $.each(docs, function(i2, e2) {
+                if(i2 > i1) {
+                    return;
+                }
                 var cosDocB;
+                if(!cosines.hasOwnProperty(i2)) {
+                    cosines[i2] = {};
+                }
                 if(!cosDocA.hasOwnProperty(i2)) {
                     cosDocA[i2] = NaN;
                 }
@@ -208,7 +222,9 @@
 
                 // It's useless to recompute the cosine of orthogonal vectors. It will still be 0
                 if(cosDocB !== 0) {
-                    cosDocA[i2] = computeCosine(e, e2, idf);
+                    var cos = computeCosine(e1, e2, idf);
+                    cosDocA[i2] = cos;
+                    cosines[i2][i1] = cos;
                 }
             });
         });
@@ -275,7 +291,7 @@
         // reader. Will do for now.
         manipulatingDom = true;
         $.each(groups, function(i,e) {
-            var entry = $("." + i);
+            var entry = $(".entry-" + i);
             var title = entry.find("h2.entry-title");
 
             entry.data("rp_data", e);
@@ -287,11 +303,12 @@
 
             // move related articles together. And hide all but the first
             $.each(e, function(i2, e2) {
+                // e is an array so i2 is not interesting
                 // don't move the "main" article
                 if(e2 == i) {
                     return;
                 }
-                var similar = $("." + e2);
+                var similar = $(".entry-" + e2);
 
                 similar.addClass("rp-similar-articles-hide");
                 similar.addClass("rp-similar-articles");
@@ -327,7 +344,7 @@
     function setStateShowRelatedEntries(e, state) {
         var p = e.parent().parent();
         var associatedEntries = p.data("rp_data");
-        var numEntry = entryClassMatch.exec(p.prop("class"));
+        var numEntry = getEntryNumber(p.prop("class"));
 
         if(state) {
             e.removeClass("read-state-not-kept-unread");
@@ -336,7 +353,7 @@
                 if(numEntry == e) {
                     return;
                 }
-                $("."+ e).removeClass("rp-similar-articles-hide");
+                $(".entry-"+ e).removeClass("rp-similar-articles-hide");
             });
         } else {
             e.addClass("read-state-not-kept-unread");
@@ -345,7 +362,7 @@
                 if(numEntry == e) {
                     return;
                 }
-                $("."+ e).addClass("rp-similar-articles-hide");
+                $(".entry-"+ e).addClass("rp-similar-articles-hide");
             });
         }
 
