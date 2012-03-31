@@ -39,6 +39,57 @@
     entries.on("DOMNodeInserted", newEntriesEvent );
     entries.on("DOMNodeRemoved", delEntriesEvent);
 
+
+    // Add button to view details on grouping
+    $("<div id='rp-details-button' role='button' class='goog-inline-block jfk-button jfk-button-standard viewer-buttons' tabindex='0' title='ReaderPlus settings'>RP Settings</div>").appendTo("#viewer-top-controls");
+    $("#rp-details-button").click(showRPSettings);
+
+    function showRPSettings() {
+        $("<div id='rp-overlay' />").appendTo("body");
+        $("<div id='rp-details'><div id='rp-title'>Reader Plus Details</div><div id='rp-close'>X</div></div>").appendTo("body");
+        $("<div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups' />").appendTo("#rp-details")
+        $("#rp-close").on("click", hideRPSettings);
+        $( "#rp-slider" ).slider({
+            value: threshold,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slide: function( event, ui ) {
+                $( "#rp-threshold" ).val( ui.value );
+                displayGroups(ui.value);
+            }
+        });
+        $( "#rp-threshold" ).val( $( "#rp-slider" ).slider( "value" ) );
+        displayGroups(threshold);
+    }
+
+    function displayGroups(val) {
+        var groups = buildGroups(val);
+        var numGroups = 0;
+
+        var divGroups = $("#rp-groups");
+        var divNumGroups = $("<div class='rp-num-groups'></div>");
+
+        divGroups.empty();
+        divNumGroups.appendTo(divGroups);
+
+        $.each(groups, function(i1, e1) {
+
+            var divGroup = $("<div class='rp-group' />").appendTo(divGroups);
+            numGroups++;
+
+            $.each(e1, function(i2, e2) {
+                $("<div class='rp-entry'>" + documents[e2].doc +"</div>").appendTo(divGroup);
+            });
+        });
+        divNumGroups.html("#groups: " + numGroups);
+    }
+
+    function hideRPSettings() {
+        $("#rp-overlay").remove();
+        $("#rp-details").remove();
+    }
+
     function delEntriesEvent(me) {
         if(manipulatingDom) {
             return;
@@ -291,17 +342,6 @@
             }
         });
         return groups;
-    }
-
-    function displayFilteredDocuments(groups) {
-        console.log("Groups found:");
-        $.each(groups, function(i,e) {
-            var toDisplay = "";
-            $.each(e, function(i2, e2) {
-                toDisplay += documents[e2].doc + " | ";
-            });
-            console.log(toDisplay);
-        });
     }
 
     function annotateDom(groups) {

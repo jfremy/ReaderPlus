@@ -15,3 +15,59 @@
     background-image: url('chrome-extension://__MSG_@@extension_id__/images/icon.png');
     background-repeat: no-repeat;
 }
+
+#rp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: black;
+    z-index: 9998;
+}
+
+#rp-details {
+    position: fixed;
+    top: 100px;
+    bottom: 100px;
+    left: 200px;
+    right: 200px;
+    z-index: 9999;
+    background-color: white;
+    opacity: 1;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+#rp-title {
+    display: inline-block;
+}
+#rp-close {
+    display: inline-block;
+    float: right;
+}
+
+#rp-details-button {
+    -webkit-user-select: none;
+}
+
+#rp-container {
+    height: 100px;
+}
+
+#rp-groups {
+
+}
+
+#rp-group {
+
+}
+
+#rp-entry {
+
+}
+
+#rp-words {
+
+}

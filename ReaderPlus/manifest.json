@@ -7,8 +7,8 @@
     "content_scripts": [
     {
         "matches": ["http://www.google.com/reader/view/*"],
-        "css": ["css/readerplus.css"],
-        "js": ["js/jquery.js", "js/readerplus.js"]
+        "css": ["css/jquery-ui-custom.css", "css/readerplus.css"],
+        "js": ["js/jquery.js", "js/jquery-ui-custom.js", "js/readerplus.js"]
     }
     ],
     "permissions": [
