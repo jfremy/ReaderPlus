@@ -60,14 +60,18 @@
 
 }
 
-#rp-group {
-
+.rp-group {
+    padding: 5px;
 }
 
-#rp-entry {
-
+.rp-entry {
+    display: inline;
 }
 
-#rp-words {
-
+.rp-entry-separator {
+    display: inline;
+    margin-left: 4px;
+    margin-right: 4px;
+    border-right-style: solid;
+    border-right-color: #808080;
 }

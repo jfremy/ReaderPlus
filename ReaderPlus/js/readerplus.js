@@ -79,8 +79,9 @@
             numGroups++;
 
             $.each(e1, function(i2, e2) {
-                $("<div class='rp-entry'>" + documents[e2].doc +"</div>").appendTo(divGroup);
+                $("<div class='rp-entry'>" + documents[e2].doc +"</div><div class='rp-entry-separator' />").appendTo(divGroup);
             });
+            divGroup.find(".rp-entry-separator").last().remove();
         });
         divNumGroups.html("#groups: " + numGroups);
     }
