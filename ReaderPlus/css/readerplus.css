@@ -34,18 +34,32 @@
     left: 200px;
     right: 200px;
     z-index: 9999;
+    padding: 0px;
     background-color: white;
     opacity: 1;
-    padding: 10px;
     overflow-y: scroll;
+    border-radius: 3px;
+    box-shadow: #808080;
+}
+
+#rp-title-bar {
+    background-color: orange;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
 }
 
 #rp-title {
     display: inline-block;
+    padding-left: 5px;
 }
 #rp-close {
     display: inline-block;
     float: right;
+}
+
+#rp-content {
+    padding: 10px;
 }
 
 #rp-details-button {
@@ -64,8 +78,11 @@
     padding: 5px;
 }
 
+.rp-group-header {
+    background-color: orange;
+}
+
 .rp-entry {
-    display: inline;
 }
 
 .rp-entry-separator {

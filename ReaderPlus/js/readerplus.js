@@ -46,8 +46,8 @@
 
     function showRPSettings() {
         $("<div id='rp-overlay' />").appendTo("body");
-        $("<div id='rp-details'><div id='rp-title'>Reader Plus Details</div><div id='rp-close'>X</div></div>").appendTo("body");
-        $("<div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups' />").appendTo("#rp-details")
+        $("<div id='rp-details'><div id='rp-title-bar'><div id='rp-title'>Reader Plus Details</div><div id='rp-close'>X</div></div></div>").appendTo("body");
+        $("<div id='rp-content'><div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' readonly='readonly' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups' /></div>").appendTo("#rp-details")
         $("#rp-close").on("click", hideRPSettings);
         $( "#rp-slider" ).slider({
             value: threshold,
@@ -75,11 +75,11 @@
 
         $.each(groups, function(i1, e1) {
 
-            var divGroup = $("<div class='rp-group' />").appendTo(divGroups);
             numGroups++;
+            var divGroup = $("<div class='rp-group'><div class='rp-group-header'>Group #"+ numGroups +"</div></div>").appendTo(divGroups);
 
             $.each(e1, function(i2, e2) {
-                $("<div class='rp-entry'>" + documents[e2].doc +"</div><div class='rp-entry-separator' />").appendTo(divGroup);
+                $("<div class='rp-entry'>" + documents[e2].doc +"</div>").appendTo(divGroup);
             });
             divGroup.find(".rp-entry-separator").last().remove();
         });
