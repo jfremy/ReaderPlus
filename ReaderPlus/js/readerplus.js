@@ -47,8 +47,9 @@
     function showRPSettings() {
         $("<div id='rp-overlay' />").appendTo("body");
         $("<div id='rp-details'><div id='rp-title-bar'><div id='rp-title'>Reader Plus Details</div><div id='rp-close'>X</div></div></div>").appendTo("body");
-        $("<div id='rp-content'><div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' readonly='readonly' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups' /></div>").appendTo("#rp-details")
+        $("<div id='rp-content'><div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' readonly='readonly' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups-holder'><div id='rp-groups' /></div></div>").appendTo("#rp-details")
         $("#rp-close").on("click", hideRPSettings);
+        $("#rp-overlay").on("click", hideRPSettings);
         $( "#rp-slider" ).slider({
             value: threshold,
             min: 0,

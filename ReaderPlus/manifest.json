@@ -1,6 +1,6 @@
 {
     "name": "Deduplicator for Google Reader™",
-    "version": "0.22",
+    "version": "0.23",
     "description": "Group similar articles in Google Reader together.",
     "options_page": "html/options.html",
     "background_page": "html/background.html",
