@@ -1,6 +1,6 @@
 this.manifest = {
     "name": "Deduplicator for Google Reader™",
-    "icon": "images/logo.png",
+    "icon": "../images/logo.png",
     "settings": [
         {
             "tab": "Information",

@@ -31,7 +31,7 @@
     var idf = {};
     var cosines = {};
 
-    window.chrome.extension.sendRequest("getSensibility", function(response) {
+    window.chrome.extension.sendRequest({type: "getSensibility"}, function(response) {
         threshold = response;
     });
 
@@ -58,6 +58,7 @@
             slide: function( event, ui ) {
                 $( "#rp-threshold" ).val( ui.value );
                 displayGroups(ui.value);
+                window.chrome.extension.sendRequest({type: "setSensibility", val: Number(ui.value) }, function() {});
             }
         });
         $( "#rp-threshold" ).val( $( "#rp-slider" ).slider( "value" ) );
