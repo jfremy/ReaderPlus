@@ -1,2 +1,7 @@
 Reader Plus is an extension for Chrome that extends Google Reader.
-It takes articles with similar titles and groups them together, only displaying the first one while letting you choose to see the rest.
+It takes articles with similar titles and groups them together, only displaying the first one while letting you choose
+to see the rest.
+
+v0.23 (2012/04/28)
+Details page (button in the top bar) lets you change the sensibility threshold and see how the grouping changes based on
+that.
