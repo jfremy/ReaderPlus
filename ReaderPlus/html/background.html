@@ -4,26 +4,7 @@
 <head>
     <title>Google Reader Plus background page</title>
     <script type="text/javascript" src="../js/store.js"></script>
-    <script type="text/javascript">
-        var defaultSettings = {
-            'sensibility': 0.3
-        };
-        var settings = new Store("settings", defaultSettings);
-
-        chrome.extension.onRequest.addListener(
-                function(request, sender, sendResponse) {
-                    if(!request || !request.hasOwnProperty("type")) {
-                        sendResponse("Invalid query");
-                    }
-                    if (request.type == "getSensibility")
-                        sendResponse(settings.get("sensibility"));
-                    else if(request.type = "setSensibility" && request.hasOwnProperty("val")) {
-                        settings.set("sensibility", request.val);
-                    } else {
-                        sendResponse("Failed"); // snub them.
-                    }
-                });
-    </script>
+    <script type="text/javascript" src="../js/background.js"></script>
 </head>
 <body>
 

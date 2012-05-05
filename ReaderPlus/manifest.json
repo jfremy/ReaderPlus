@@ -2,8 +2,8 @@
     "name": "Deduplicator for Google Reader™",
     "version": "0.24",
     "description": "Group similar articles in Google Reader together.",
-    "options_page": "html/options.html",
     "background_page": "html/background.html",
+    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     "content_scripts": [
     {
         "matches": ["http://www.google.com/reader/view/*", "https://www.google.com/reader/view/*"],

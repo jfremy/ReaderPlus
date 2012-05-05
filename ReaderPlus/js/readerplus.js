@@ -41,12 +41,12 @@
 
 
     // Add button to view details on grouping
-    $("<div id='rp-details-button' role='button' class='goog-inline-block jfk-button jfk-button-standard viewer-buttons' tabindex='0' title='Deduplicator for Google Reader(tm) settings'>Grouping Settings</div>").appendTo("#viewer-top-controls");
+    $("<div id='rp-details-button' role='button' class='goog-inline-block jfk-button jfk-button-standard viewer-buttons' tabindex='0' title='Deduplicator for Google Reader&trade; settings'>Grouping Settings</div>").appendTo("#viewer-top-controls");
     $("#rp-details-button").click(showRPSettings);
 
     function showRPSettings() {
         $("<div id='rp-overlay' />").appendTo("body");
-        $("<div id='rp-details'><div id='rp-title-bar'><div id='rp-title'>Deduplicator for Google Reader(tm) settings</div><div id='rp-close'>X</div></div></div>").appendTo("body");
+        $("<div id='rp-details'><div id='rp-title-bar'><div id='rp-title'>Deduplicator for Google Reader&trade; settings</div><div id='rp-close'>X</div></div></div>").appendTo("body");
         $("<div id='rp-content'><div id='rp-slider-caption'><label>Grouping threshold:</label><input type='text' readonly='readonly' id='rp-threshold' /></div><div id='rp-slider'></div><div id='rp-groups-holder'><div id='rp-groups' /></div></div>").appendTo("#rp-details")
         $("#rp-close").on("click", hideRPSettings);
         $("#rp-overlay").on("click", hideRPSettings);
@@ -56,6 +56,10 @@
             max: 1,
             step: 0.01,
             slide: function( event, ui ) {
+                $( "#rp-threshold" ).val( ui.value );
+                displayGroups(ui.value);
+            },
+            stop: function( event, ui ) {
                 $( "#rp-threshold" ).val( ui.value );
                 displayGroups(ui.value);
                 window.chrome.extension.sendRequest({type: "setSensibility", val: Number(ui.value) }, function() {});
