@@ -1,7 +1,13 @@
-Reader Plus is an extension for Chrome that extends Google Reader.
+Deduplicator for Google Reader(tm) is an extension for Chrome that extends Google Reader(tm).
 It takes articles with similar titles and groups them together, only displaying the first one while letting you choose
 to see the rest.
 
+v0.24 (2012/05/06)
+- Removed configuration page in the extension page since it was not very helpful. It's easier to change the sensibility
+from the "Grouping settings" in Google Reader(tm) directly.
+- Also supports Google Reader(tm) using https
+- Added Google Analtyics tracking
+
 v0.23 (2012/04/28)
-Details page (button in the top bar) lets you change the sensibility threshold and see how the grouping changes based on
+- Details page (button in the top bar) lets you change the sensibility threshold and see how the grouping changes based on
 that.
