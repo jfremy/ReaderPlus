@@ -1,5 +1,5 @@
 /*
-    Google Reader Plus groups similar articles together in Google Reader
+    Deduplicator for Google Reader(tm) groups similar articles together in Google Reader(tm)
     Copyright (C) 2012  Jean-François Remy (jeff@melix.org)
 
     This program is free software: you can redistribute it and/or modify
