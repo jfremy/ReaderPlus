@@ -25,7 +25,7 @@
     var timerEndLoading = null;
     var manipulatingDom = false;
 
-    var threshold = 0.4;
+    var threshold = 0.3;
 
     var documents = {};
     var idf = {};
@@ -160,12 +160,12 @@
     }
 
     function triggerTimer() {
-        var startTime = new Date();
         var endTime, duration;
+        var startTime = new Date();
         clearTimeout(timerEndLoading);
 
         idf = inverseDocumentFrequency(documents);
-        updateCosines(documents, idf);
+        cosines = updateCosines(cosines, documents, idf);
         var groups = buildGroups(threshold);
         annotateDom(groups);
         endTime = new Date();
@@ -275,21 +275,22 @@
         return scalar / Math.sqrt(normA*normB);
     }
 
-    function updateCosines(docs, idf) {
+    function updateCosines(currentCos, docs, idf) {
+        var updatedCos = currentCos;
         $.each(docs, function(i1,e1) {
             var cosDocA;
-            if(!cosines.hasOwnProperty(i1)) {
-                cosines[i1] = {};
+            if(!updatedCos.hasOwnProperty(i1)) {
+                updatedCos[i1] = {};
             }
-            cosDocA = cosines[i1];
+            cosDocA = updatedCos[i1];
 
             $.each(docs, function(i2, e2) {
                 if(i2 > i1) {
                     return;
                 }
                 var cosDocB;
-                if(!cosines.hasOwnProperty(i2)) {
-                    cosines[i2] = {};
+                if(!updatedCos.hasOwnProperty(i2)) {
+                    updatedCos[i2] = {};
                 }
                 if(!cosDocA.hasOwnProperty(i2)) {
                     cosDocA[i2] = NaN;
@@ -304,6 +305,7 @@
                 }
             });
         });
+        return updatedCos;
     }
 
     function buildGroups(threshold) {
