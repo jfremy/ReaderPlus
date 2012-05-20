@@ -36,6 +36,7 @@ _gaq.push(['_setAccount', 'UA-29307547-1']);
     // Track sensibility
     var sensibility = settings.get("sensibility");
     _gaq.push(['_setCustomVar', 1, 'Sensibility', sensibility.toString() , 2]);
+    _gaq.push(['_setCustomVar', 2, 'Version', chrome.app.getDetails().version.toString(), 2 ]);
     _gaq.push(['_trackPageview']);
 
     // Interface with the main page to retrieve / set the sensibility
