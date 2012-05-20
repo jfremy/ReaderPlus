@@ -27,6 +27,7 @@ _gaq.push(['_setAccount', 'UA-29307547-1']);
 })();
 
 (function() {
+    "use strict";
     // Default parameters for the sensisibility
     var defaultSettings = {
         'sensibility': 0.3
@@ -36,7 +37,7 @@ _gaq.push(['_setAccount', 'UA-29307547-1']);
     // Track sensibility
     var sensibility = settings.get("sensibility");
     _gaq.push(['_setCustomVar', 1, 'Sensibility', sensibility.toString() , 2]);
-    _gaq.push(['_setCustomVar', 2, 'Version', chrome.app.getDetails().version.toString(), 2 ]);
+    _gaq.push(['_setCustomVar', 2, 'Version', window.chrome.app.getDetails().version.toString(), 2 ]);
     _gaq.push(['_trackPageview']);
 
     // Interface with the main page to retrieve / set the sensibility
@@ -45,14 +46,22 @@ _gaq.push(['_setAccount', 'UA-29307547-1']);
             if(!request || !request.hasOwnProperty("type")) {
                 sendResponse("Invalid query");
             }
-            if (request.type == "getSensibility")
-                sendResponse(settings.get("sensibility"));
-            else if(request.type = "setSensibility" && request.hasOwnProperty("val")) {
-                settings.set("sensibility", request.val);
-                _gaq.push(['_setCustomVar', 1, 'Sensibility', request.val.toString(), 2]);
-                _gaq.push(['_trackEvent', 'Sensibility', 'Change', request.val.toString(), request.val]);
-            } else {
-                sendResponse("Failed"); // snub them.
+
+            switch(request.type) {
+                case "getSensibility":
+                    sendResponse(settings.get("sensibility"));
+                    break;
+                case "setSensibility":
+                    if(!request.hasOwnProperty('val')) {
+                        sendResponse("Missig val parameter");
+                        break;
+                    }
+                    settings.set("sensibility", request.val);
+                    _gaq.push(['_setCustomVar', 1, 'Sensibility', request.val.toString(), 2]);
+                    _gaq.push(['_trackEvent', 'Sensibility', 'Change', request.val.toString(), request.val]);
+                    break;
+                default:
+                    sendResponse("Failed"); // snub them.
             }
         });
 })();
