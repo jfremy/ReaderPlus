@@ -1,6 +1,6 @@
 {
     "name": "Deduplicator for Google Reader™",
-    "version": "0.24",
+    "version": "0.25",
     "description": "Group similar articles in Google Reader together.",
     "background_page": "html/background.html",
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
@@ -8,7 +8,7 @@
     {
         "matches": ["http://www.google.com/reader/view/*", "https://www.google.com/reader/view/*"],
         "css": ["css/jquery-ui-custom.css", "css/readerplus.css"],
-        "js": ["js/jquery.js", "js/jquery-ui-custom.js", "js/readerplus.js"]
+        "js": ["js/jquery.js", "js/jquery-ui-custom.js", "js/mutation_summary.js", "js/readerplus.js"]
     }
     ],
     "permissions": [

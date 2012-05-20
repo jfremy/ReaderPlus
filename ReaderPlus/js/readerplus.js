@@ -36,8 +36,23 @@
     });
 
     var entries = $("#entries");
-    entries.on("DOMNodeInserted", newEntriesEvent );
-    entries.on("DOMNodeRemoved", delEntriesEvent);
+    var observer;
+
+    if(typeof window.WebKitMutationObserver != 'function') {
+        console.log("Using deprecated DOM event observer");
+        entries.on("DOMNodeInserted", newEntriesEvent );
+        entries.on("DOMNodeRemoved", delEntriesEvent);
+    } else {
+        console.log("Using new mutation observer");
+        var entriesDOM = entries[0];
+        observer = new MutationSummary({
+            callback: processMutationChanges,
+            rootNode: entriesDOM,
+            queries:[
+                { element: "div.entry" }
+            ]
+        });
+    }
 
 
     // Add button to view details on grouping
@@ -172,6 +187,29 @@
         duration = (endTime.getTime() - startTime.getTime()) / 1000;
 
         console.log("Updated IDF & Cosines in " + duration + "s");
+    }
+
+    function processMutationChanges(summary) {
+        var added = summary[0].added;
+        var removed = summary[0].removed;
+        console.log("Mutation Observer called with " + added.length + " added and " + removed.length + " removed");
+        $.each(added, function(i,v) {
+            var e = $(v);
+            var numEntry = getEntryNumber(e.prop("class"));
+
+            var title = e.find("h2.entry-title");
+            documents[numEntry] = termFrequency(title.text());
+        });
+        $.each(removed, function(i,v) {
+            var e = $(v);
+            var numEntry = getEntryNumber(e.prop("class"));
+            if(numEntry && documents.hasOwnProperty(numEntry)) {
+                delete documents[numEntry];
+                delete cosines[numEntry];
+            }
+
+        });
+        triggerTimer();
     }
 
     function termFrequency(doc) {
