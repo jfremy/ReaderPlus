@@ -49,7 +49,8 @@
             callback: processMutationChanges,
             rootNode: entriesDOM,
             queries:[
-                { element: "div.entry" }
+                { element: "div.entry" },
+                { element: "div.entry-actions"}
             ]
         });
     }
@@ -190,8 +191,12 @@
     }
 
     function processMutationChanges(summary) {
+        var changes = false;
         var added = summary[0].added;
         var removed = summary[0].removed;
+        var expanded = summary[1].added;
+
+        // Handle added/removed articles
         console.log("Mutation Observer called with " + added.length + " added and " + removed.length + " removed");
         $.each(added, function(i,v) {
             var e = $(v);
@@ -199,6 +204,7 @@
 
             var title = e.find("h2.entry-title");
             documents[numEntry] = termFrequency(title.text());
+            changes = true;
         });
         $.each(removed, function(i,v) {
             var e = $(v);
@@ -207,9 +213,24 @@
                 delete documents[numEntry];
                 delete cosines[numEntry];
             }
+            changes = true;
+        });
+        if(changes) {
+            triggerTimer();
+        }
+
+        // Handle expanding an element
+        // There should be only one element here at most
+        $.each(expanded, function(i,v) {
+            var e = $(v);
+            var p = e.parent();
+            var associatedEntries = p.data("rp_data");
+            if(associatedEntries == undefined) {
+                return;
+            }
+            addShowRelatedEntries(e);
 
         });
-        triggerTimer();
     }
 
     function termFrequency(doc) {
